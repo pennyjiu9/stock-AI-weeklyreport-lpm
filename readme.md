@@ -17,7 +17,7 @@
 - `output/` – 生成的报告（HTML + PDF）
 - `.github/workflows/` – 自动化流水线
 
-## 🚀 本地运行（可选）
+## 🚀 本地运行
 
 ```bash
 # 安装依赖
@@ -31,3 +31,15 @@ python scripts/02_generate_summary.py
 
 # 渲染报告
 quarto render report_template.qmd --to html,pdf
+
+## 📝 说明
+
+数据来源：akshare（A股）、yfinance（美股）
+
+AI 摘要：MiniMax API
+
+报告渲染：Quarto + matplotlib
+
+自动化：GitHub Actions
+
+
