@@ -21,7 +21,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
-          pip install akshare yfinance pandas matplotlib requests python-dotenv
+          pip install akshare yfinance pandas matplotlib requests python-dotenv jupyter ipykernel pyyaml
 
       - name: Fetch market data (A股 + 美股)
         run: python scripts/01_fetch_data.py
