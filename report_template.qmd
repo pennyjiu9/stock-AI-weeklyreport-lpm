@@ -8,12 +8,22 @@ format:
     toc: true
     theme: flatly
     self-contained: true
+    include-in-header:
+      text: |
+        <style>
+          /* 强制所有段落和代码块输出内容自动换行，防止长字符串溢出 */
+          p, div, .cell-output, .cell-output-display {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+          }
+        </style>
   pdf:
     documentclass: article
     papersize: a4
     geometry: margin=2cm
-    latex-engine: xelatex          # 使用 xelatex 引擎
-    mainfont: "WenQuanYi Zen Hei"  # 中文字体（Ubuntu 已安装）
+    latex-engine: xelatex
+    mainfont: "WenQuanYi Zen Hei"
     sansfont: "WenQuanYi Zen Hei"
     monofont: "WenQuanYi Zen Hei"
 execute:
@@ -55,7 +65,7 @@ df = pd.DataFrame(indices).T.reset_index()
 df.columns = ['指数', '收盘价', '周涨跌幅(%)']
 # 收盘价保留 4 位小数
 df['收盘价'] = df['收盘价'].round(4)
-df['方向'] = df['周涨跌幅(%)'].apply(lambda x: '▲' if x >= 0 else '▼')
+df['方向'] = df['周涨跌幅(%)'].apply(lambda x: '上涨' if x >= 0 else '下跌')
 df['显示'] = df.apply(lambda r: f"{r['方向']} {abs(r['周涨跌幅(%)']):.2f}%", axis=1)
 df[['指数', '收盘价', '显示']]
 ```
@@ -83,11 +93,6 @@ else:
 # AI 生成市场摘要
 
 ```{python}
-# AI 生成市场摘要
-
-```{python}
 #| echo: false
-#| output: asis
-print(f'<div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;">{ai_summary}</div>')
-```
+print(ai_summary)
 ```
