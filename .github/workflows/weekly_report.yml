@@ -1,0 +1,63 @@
+name: Weekly Market Report
+
+on:
+  schedule:
+    - cron: '0 8 * * 5'
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install akshare yfinance pandas matplotlib requests python-dotenv
+
+      - name: Fetch market data (A股 + 美股)
+        run: |
+          unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
+          python scripts/01_fetch_data.py
+        env:
+          CI: true
+
+      - name: Generate AI summary via MiniMax
+        run: python scripts/02_generate_summary.py
+        env:
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          MINIMAX_GROUP_ID: ${{ secrets.MINIMAX_GROUP_ID }}
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: '1.4.554'
+
+      - name: Install Chinese fonts (for matplotlib)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-wqy-zenhei
+          rm -rf ~/.cache/matplotlib
+
+      - name: Install LaTeX for PDF (xelatex + ctex)
+        run: |
+          sudo apt-get install -y texlive-xetex texlive-lang-chinese
+
+      - name: Render report to HTML and PDF
+        run: quarto render report_template.qmd --to html,pdf
+
+      - name: Commit and push generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ output/ || true
+          git diff --cached --quiet || git commit -m "chore: auto-generate weekly report $(date +'%Y-%m-%d')"
+          git push
