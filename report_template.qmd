@@ -83,6 +83,11 @@ else:
 # AI 生成市场摘要
 
 ```{python}
+# AI 生成市场摘要
+
+```{python}
 #| echo: false
-print(ai_summary)
+#| output: asis
+print(f'<div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;">{ai_summary}</div>')
+```
 ```
