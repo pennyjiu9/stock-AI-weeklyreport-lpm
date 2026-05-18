@@ -12,9 +12,10 @@ format:
     documentclass: article
     papersize: a4
     geometry: margin=2cm
-    latex-engine: xelatex          # 关键：使用 xelatex 支持中文
-    header-includes:               # 代替 include-in-header
-      - \usepackage{ctex}
+    latex-engine: xelatex          # 使用 xelatex 引擎
+    mainfont: "WenQuanYi Zen Hei"  # 中文字体（Ubuntu 已安装）
+    sansfont: "WenQuanYi Zen Hei"
+    monofont: "WenQuanYi Zen Hei"
 execute:
   warning: false
 ---
