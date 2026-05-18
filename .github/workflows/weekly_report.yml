@@ -8,6 +8,8 @@ on:
 jobs:
   generate-report:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 授予写入权限，允许推送
 
     steps:
       - name: Checkout repository
@@ -57,4 +59,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ output/ || true
           git diff --cached --quiet || git commit -m "chore: auto-generate weekly report $(date +'%Y-%m-%d')"
-          git push --force origin master
+          git push origin master
