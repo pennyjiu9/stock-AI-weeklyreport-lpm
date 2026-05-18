@@ -31,6 +31,7 @@ python scripts/02_generate_summary.py
 
 # 渲染报告
 quarto render report_template.qmd --to html,pdf
+```
 
 ## 📝 说明
 
