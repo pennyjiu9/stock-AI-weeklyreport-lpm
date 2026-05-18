@@ -1,9 +1,2 @@
 .env
-data/weekly_data.json
-data/ai_summary.txt
-output/*.html
-output/*.pdf
-__pycache__/
-*.pyc
-/.quarto/
-**/*.quarto_ipynb
+
