@@ -12,11 +12,11 @@ format:
     documentclass: article
     papersize: a4
     geometry: margin=2cm
-    include-in-header:
-      text: |
-        \usepackage{ctex}
+    latex-engine: xelatex          # 关键：使用 xelatex 支持中文
+    header-includes:               # 代替 include-in-header
+      - \usepackage{ctex}
 execute:
-  warning: false   # 屏蔽所有警告输出到报告
+  warning: false
 ---
 
 ```{python}
