@@ -5,10 +5,14 @@ import pandas as pd
 import time
 import os
 
-# ========== 设置代理环境变量（方法一） ==========
-# 让 yfinance 通过 HTTP 代理访问雅虎财经
-os.environ['HTTP_PROXY'] = 'http://127.0.0.1:10808'
-os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:10808'
+# ========== 代理配置：仅在本地环境启用 ==========
+# GitHub Actions 等 CI 环境不需要代理，直接直连
+if not os.getenv('CI'):   # CI 环境变量在 GitHub Actions 中会被自动设为 'true'
+    os.environ['HTTP_PROXY'] = 'http://127.0.0.1:10808'
+    os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:10808'
+    print("✅ 本地模式：已启用代理 127.0.0.1:10808")
+else:
+    print("✅ CI 模式：直连，不设置代理")
 # =============================================
 
 def get_with_retry(func, retries=3, delay=2):
