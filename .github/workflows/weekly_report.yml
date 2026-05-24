@@ -30,11 +30,10 @@ jobs:
         env:
           CI: true
 
-      - name: Generate AI summary via MiniMax
+      - name: Generate AI summary via DeepSeek
         run: python scripts/02_generate_summary.py
         env:
-          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
-          MINIMAX_GROUP_ID: ${{ secrets.MINIMAX_GROUP_ID }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2

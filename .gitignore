@@ -1,2 +1,10 @@
 .env
 
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Quarto 中间构建文件
+report_template.log
+report_template.tex
+report_template_files/

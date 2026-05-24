@@ -7,16 +7,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def generate_market_summary(weekly_data: dict) -> str:
-    api_key = os.getenv("MINIMAX_API_KEY")
-    group_id = os.getenv("MINIMAX_GROUP_ID")
-    if not api_key or not group_id:
-        raise ValueError("请设置环境变量 MINIMAX_API_KEY 和 MINIMAX_GROUP_ID")
+    api_key = os.getenv("DEEPSEEK_API_KEY")
+    if not api_key:
+        raise ValueError("请设置环境变量 DEEPSEEK_API_KEY")
 
-    url = "https://api.minimaxi.com/anthropic/v1/messages"
+    # DeepSeek API 使用 OpenAI 兼容接口
+    url = "https://api.deepseek.com/v1/chat/completions"
 
     headers = {
-        "x-api-key": api_key,
-        "anthropic-version": "2023-06-01",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
 
@@ -36,13 +35,12 @@ def generate_market_summary(weekly_data: dict) -> str:
 """
 
     payload = {
-        "model": "MiniMax-M2",          # 保持与你成功版本一致
+        "model": "deepseek-chat",       # DeepSeek V4 Flash（OpenAI 兼容）
         "messages": [
             {"role": "user", "content": prompt}
         ],
         "max_tokens": 1000,
-        "temperature": 0.7,
-        "group_id": group_id            # 关键：group_id 在 body 中
+        "temperature": 0.7
     }
 
     response = requests.post(url, headers=headers, json=payload)
@@ -52,8 +50,8 @@ def generate_market_summary(weekly_data: dict) -> str:
         raise Exception(f"API 调用失败，状态码 {response.status_code}: {response.text}")
 
     result = response.json()
-    # Anthropic 兼容接口的响应解析方式
-    summary = next(block["text"] for block in result["content"] if block["type"] == "text")
+    # OpenAI 兼容接口的响应解析方式
+    summary = result["choices"][0]["message"]["content"]
     return summary
 
 if __name__ == "__main__":

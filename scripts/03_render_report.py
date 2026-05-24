@@ -1,8 +1,14 @@
 import subprocess
 import os
+import platform
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-cmd = ["quarto", "render", "report_template.qmd", "--to", "html,pdf"]
+
+# Windows 本地只渲染 HTML（PDF 需要 Linux 中文字体，由 CI 处理）
+if platform.system() == 'Windows':
+    cmd = ["quarto", "render", "report_template.qmd", "--to", "html"]
+else:
+    cmd = ["quarto", "render", "report_template.qmd", "--to", "html,pdf"]
 
 # 使用 utf-8 编码捕获输出，避免 Windows 下 gbk 解码错误
 result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')

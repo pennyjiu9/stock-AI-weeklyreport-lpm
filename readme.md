@@ -26,7 +26,7 @@ pip install akshare yfinance pandas matplotlib requests python-dotenv jupyter
 # 获取数据
 python scripts/01_fetch_data.py
 
-# 生成 AI 摘要（需设置 MiniMax API 密钥）
+# 生成 AI 摘要（需设置 DeepSeek API 密钥）
 python scripts/02_generate_summary.py
 
 # 渲染报告
@@ -37,7 +37,7 @@ quarto render report_template.qmd --to html,pdf
 
 数据来源：akshare（A股）、yfinance（美股）
 
-AI 摘要：MiniMax API
+AI 摘要：DeepSeek API
 
 报告渲染：Quarto + matplotlib
 
